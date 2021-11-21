@@ -22,7 +22,8 @@
   <p>OUTPUT</p>
   <textarea rows='10' id='resultcode'></textarea>
   <script>
-    const server = '/svgjson';
+    const server = '/Modules/svgjson';
+    console.log(server);
     document.getElementById('form').addEventListener('submit', async event => {
         event.preventDefault();
         await convertCode()

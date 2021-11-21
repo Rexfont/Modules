@@ -6,7 +6,8 @@ const cors = require('cors')
 app.use(cors())
 const upload = multer({ dest: '../../../uploads/' })
 const svgjson = require('svgjson');
-const root = '/svgjson';
+const root = '/Modules';
+const svgjsonRoot = '/svgjson';
 const PORT = process.env.PORT || 8001;
 
 app.use((req, res, next) => {
@@ -14,12 +15,11 @@ app.use((req, res, next) => {
   next();
 })
 
-app.get(`${root}/`, (req, res) => {
+app.get(`${root}${svgjsonRoot}/`, (req, res) => {
   res.sendFile(path.join(__dirname, './index.html'));
 });
 
-
-app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
+app.post(`${root}${svgjsonRoot}/convert`, upload.single('file'), async (req, res) => {
   if(req.file) svgjson({data: path.join(__dirname, `./${req.file.path}`), web: false, file: true, remove: true, output: false, filename: 'sasho.svg'})
       .then(response => res.send(response))
       .catch(error => {
@@ -32,7 +32,6 @@ app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
         console.log(error.stack?error.stack:error);
         res.status(400).send(error.stack?error.stack:error)
       })
-  
 })
 
 
