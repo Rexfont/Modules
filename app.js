@@ -20,13 +20,13 @@ app.get(`${root}${svgjsonRoot}/`, (req, res) => {
 });
 
 app.post(`${root}${svgjsonRoot}/convert`, upload.single('file'), async (req, res) => {
-  if(req.file) svgjson({data: path.join(__dirname, `./${req.file.path}`), web: false, file: true, remove: true, output: false, filename: 'sasho.svg'})
+  if(req.file) svgjson({input: path.join(__dirname, `./${req.file.path}`)})
       .then(response => res.send(response))
       .catch(error => {
         console.log(error.stack?error.stack:error);
         res.status(400).send(error.stack?error.stack:error)
       })
-  else svgjson({data: req.body.code, web: false, file: false, remove: false, output: false, filename: 'sasho.svg'})
+  else svgjson({input: req.body.code})
       .then(response => res.send(response))
       .catch(error => {
         console.log(error.stack?error.stack:error);
