@@ -6,7 +6,6 @@ const cors = require('cors')
 app.use(cors())
 const upload = multer({ dest: '../uploads/' })
 const svgjson = require('svgjson');
-const root = '/modules';
 const svgjsonRoot = '/svgjson';
 const PORT = process.env.PORT || 8001;
 
@@ -15,11 +14,11 @@ app.use((req, res, next) => {
   next();
 })
 
-app.get(`${root}${svgjsonRoot}/`, (req, res) => {
+app.get(`${svgjsonRoot}/`, (req, res) => {
   res.sendFile(path.join(__dirname, './index.html'));
 });
 
-app.post(`${root}${svgjsonRoot}/convert`, upload.single('file'), async (req, res) => {
+app.post(`${svgjsonRoot}/convert`, upload.single('file'), async (req, res) => {
   if(req.file) svgjson({input: path.join(__dirname, `./${req.file.path}`)})
       .then(response => res.send(response))
       .catch(error => {
