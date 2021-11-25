@@ -17,15 +17,15 @@
     <h3>INPUT</h3>
     <p>outputFormat</p>
     <select id="outputFormat">
-      <option>JSON</option>
-      <option>SVG</option>
+      <option value="json">JSON</option>
+      <option value="svg">SVG</option>
     </select>
     <p>filename</p>
     <input id="filename" placeholder="filename">
     <p>unify</p>
     <select id="unify">
-      <option>JSON</option>
-      <option>SVG</option>
+      <option value="true">TRUE</option>
+      <option value="false">FALSE</option>
     </select>
     <textarea rows='10' id='code' name='code'></textarea>
     <input type='submit' value='Convert from textbox' />
@@ -35,6 +35,15 @@
   <textarea rows='10' id='resultcode'></textarea>
   <script>
     const server = '/svgjson';
+    function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
     document.getElementById('form').addEventListener('submit', async event => {
         event.preventDefault();
         await convertCode()
@@ -45,6 +54,9 @@
     async function convertCode() {
       var formdata = new FormData();
       formdata.append('code', document.getElementById('code').value);
+      formdata.append('outputFormat', document.getElementById('outputFormat').value);
+      // formdata.append('filename', document.getElementById('filename').value);
+      formdata.append('unify', document.getElementById('unify').value);
       await convertorApi({
         method: 'POST',
         body: formdata,
@@ -54,6 +66,9 @@
     async function convertFile() {
       var formdata = new FormData();
       formdata.append('file', document.getElementById('file').files[0], '/path/to/file');
+      formdata.append('outputFormat', document.getElementById('outputFormat').value);
+      // formdata.append('filename', document.getElementById('filename').value);
+      formdata.append('unify', document.getElementById('unify').value);
       await convertorApi({
         method: 'POST',
         body: formdata,
@@ -63,6 +78,7 @@
     async function convertorApi(requestOptions) {
       const result = await fetch(`${server}/convert`, requestOptions).then(response => response.text());
       document.getElementById('resultcode').value = result;
+      if(document.getElementById('filename').value.length>0) download(document.getElementById('filename').value, result)
     }
   </script>
 </body>
