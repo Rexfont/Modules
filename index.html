@@ -14,7 +14,19 @@
   <h1>Welcome to xmlandjson convertor</h1>
   <p>Upload your xml file or paste you code in textbox</p>
   <form id='form'>
-    <p>INPUT</p>
+    <h3>INPUT</h3>
+    <p>outputFormat</p>
+    <select id="outputFormat">
+      <option>JSON</option>
+      <option>SVG</option>
+    </select>
+    <p>filename</p>
+    <input id="filename" placeholder="filename">
+    <p>unify</p>
+    <select id="unify">
+      <option>JSON</option>
+      <option>SVG</option>
+    </select>
     <textarea rows='10' id='code' name='code'></textarea>
     <input type='submit' value='Convert from textbox' />
     <input id='file' type='file' name='file' />
@@ -22,8 +34,8 @@
   <p>OUTPUT</p>
   <textarea rows='10' id='resultcode'></textarea>
   <script>
-    const server = '/modules/svgjson';
-    console.log(server);
+    const server = '/svgjson';
+
     document.getElementById('form').addEventListener('submit', async event => {
         event.preventDefault();
         await convertCode()
