@@ -55,7 +55,6 @@
       var formdata = new FormData();
       formdata.append('code', document.getElementById('code').value);
       formdata.append('outputFormat', document.getElementById('outputFormat').value);
-      // formdata.append('filename', document.getElementById('filename').value);
       formdata.append('unify', document.getElementById('unify').value);
       await convertorApi({
         method: 'POST',
@@ -67,7 +66,6 @@
       var formdata = new FormData();
       formdata.append('file', document.getElementById('file').files[0], '/path/to/file');
       formdata.append('outputFormat', document.getElementById('outputFormat').value);
-      // formdata.append('filename', document.getElementById('filename').value);
       formdata.append('unify', document.getElementById('unify').value);
       await convertorApi({
         method: 'POST',
