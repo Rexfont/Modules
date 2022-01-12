@@ -5,8 +5,7 @@ const multer  = require('multer')
 const cors = require('cors')
 app.use(cors())
 const upload = multer({ dest: '../uploads/' })
-// const svgjson = require('svgjson');
-const svgjson = require('../svgJson/index');
+const svgjson = require('svgjson');
 const svgjsonRoot = '/svgjson';
 const PORT = process.env.PORT || 8001;
 
