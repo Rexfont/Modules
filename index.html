@@ -35,7 +35,12 @@
   <p>OUTPUT</p>
   <textarea rows='10' id='resultcode'></textarea>
   <script>
-    const server = '/svgjson';
+    
+    // const server = '/svgjson';
+    
+    const server = 'http://localhost:8001/svgjson';
+    // const server = 'https://api.rexfont.com/svgjson';
+
     function download(filename, text) {
       var element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -65,7 +70,21 @@
     }
     async function convertFile() {
       var formdata = new FormData();
-      formdata.append('file', document.getElementById('file').files[0], '/path/to/file');
+      // formdata.append('file', document.getElementById('file').files[0], '/path/to/file');
+      // const filesbase64 = []
+
+    // formdata.append("fileToUpload[]", ins[x], '/path/to/file');
+      const fileBuffer = await new Promise((resolve, reject) => {
+        var reader = new FileReader();
+        reader.onload = function() {resolve(this.result)}
+        reader.onerror = function(err) {reject(err)}
+        // reader.readAsArrayBuffer(ins[x])
+        reader.readAsText(document.getElementById('file').files[0])
+      })
+      // filesbase64.push(btoa(new Uint8Array(fileBuffer).reduce((data, byte) => data + String.fromCharCode(byte),'')));
+      // filesbase64 = fileBuffer;
+
+      formdata.append('filebase64', fileBuffer);
       formdata.append('outputFormat', document.getElementById('outputFormat').value);
       formdata.append('unify', document.getElementById('unify').value);
       await convertorApi({
